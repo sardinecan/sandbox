@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>CommonMark.jl avec bibliographie</title>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 40px auto;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+        h1 { color: #2c3e50; }
+        .references {
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .references ol { line-height: 1.8; }
+    </style>
+  </head>
+  <body>
+    <h1>Mon article</h1>
+<p>Julia est excellent (<span class="citation"><a href="#ref-smith2020">@smith2020</a></span>). Pour le web, voir (<span class="citation"><a href="#ref-doe2019">@doe2019</a></span>).</p>
+
+      <div class="references">
+    <h2>Références</h2>
+    <ol>
+      <li id="ref-smith2020">J. Smith. <em>Introduction to Julia Programming</em>. Journal of Computing <strong>42</strong>, 123–145 (2020).</li>
+      <li id="ref-doe2019">J. Doe. <em>Modern Web Development</em> (Tech Press, New York, 2019).</li>
+    </ol>
+  </div>
+
+  </body>
+</html>

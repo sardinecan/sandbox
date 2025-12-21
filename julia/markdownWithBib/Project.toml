@@ -1,0 +1,5 @@
+[deps]
+Bibliography = "f1be7e48-bf82-45af-a471-ae754a193061"
+CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
+DocumenterCitations = "daee34ce-89f3-4625-b898-19384cb65244"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"

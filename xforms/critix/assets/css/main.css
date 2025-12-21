@@ -1,0 +1,14 @@
+.app {
+  border: 1px red solid;
+}
+
+.lem {
+  text-decoration: underline;
+  text-decoration-color: blue;
+}
+
+.rdg {
+  text-decoration: underline;
+  text-decoration-color: green;
+
+}

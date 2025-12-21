@@ -1,0 +1,51 @@
+<?xml-stylesheet href="../xsltforms/xsltforms.xsl" type="text/xsl"?>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ev="http://www.w3.org/2001/xml-events">
+
+    <head>
+        <title>SPARQL - XForms</title>
+        <style type="text/css">
+            body {
+                font-family: Helvetica, sans-serif
+            }
+        </style>
+        <xf:model>
+            <xf:instance xmlns="" id="sparql-params">
+                <data>
+                    <query>
+                        PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+
+                            SELECT ?concept ?label
+                            WHERE {
+                            ?concept skos:inScheme &lt;http://thesaurus.inha.fr/thesaurus/resource/ark:/54721/4c46d0f7-07a7-4c07-8fc0-bf61f364d0fe&gt; .
+                                ?concept skos:prefLabel ?label .
+                                FILTER(LANG(?label) = "fr-fr")
+                                }
+                                ORDER BY ?label
+                    </query>
+                </data>
+            </xf:instance>
+
+            <xf:submission id="sparql-query" method="get" 
+                action="https://thesaurus.inha.fr/thesaurus/sparql?" 
+                replace="instance"
+                instance="sparql-params"
+                separator="&amp;"
+                ref="instance('sparql-params')/query"
+                encoding="application/x-www-form-urlencoded">
+            </xf:submission>
+
+            <xf:action ev:event="xforms-ready">
+                <xf:send submission="sparql-query"/>
+            </xf:action>
+        </xf:model>
+    </head>
+
+    <body>
+        <h1>SPARQL</h1>
+        <xf:output value="serialize(instance('sparql-params'))"/>
+    </body>
+</html>

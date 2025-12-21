@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../xsltforms/xsltforms.xsl" type="text/xsl"?>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"
+    xf:bogus="fix/Firefox/namespace/issue"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xs:bogus="fix/Firefox/namespace/issue"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xlink:bogus="fix/Firefox/namespace/issue"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    tei:bogus="fix/Firefox/namespace/issue"
+    lang="fr">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover"/>
+        <title>CritiX</title>
+        <link rel="stylesheet" href="assets/css/main.css"/>
+        <xf:model id="review">
+            <xf:instance id="text" src="tei.xml"/>
+
+            <xf:instance id="app">
+                <app xmlns="http://www.tei-c.org/ns/1.0" xml:id="">
+                    <lem xml:id=""/> 
+                </app>
+            </xf:instance>
+
+            <xf:instance id="apparatus">
+                <app xmlns="http://www.tei-c.org/ns/1.0" xml:id="">
+                    <lem xml:id=""/>
+                    <rdg xml:id=""/>
+                </app>
+            </xf:instance>
+
+            <xf:instance id="processing">
+                <idno xmlns="http://www.tei-c.org/ns/1.0"/>
+            </xf:instance>
+
+            <xf:action ev:event="callbackevent">
+                <xf:setvalue ref="instance('app')/@xml:id" value="event('app')"/>
+                <xf:setvalue ref="instance('app')/tei:lem/@xml:id" value="event('lem')"/>
+                <xf:insert origin="instance('text')//tei:app[@xml:id = event('app')]/*[@xml:id = event('lem')]/node()" context="instance('app')/tei:lem" />
+
+                <xf:action while="count(instance('text')//tei:app[@xml:id = event('app')]/*[@xml:id[not(. = instance('app')//@xml:id)]]) > 0">
+                    <xf:insert origin="instance('apparatus')/tei:rdg" context="instance('app')" nodeset="*" at="last()"/>
+                    <xf:var name="rdg" value="instance('text')//tei:app[@xml:id = event('app')]/*/@xml:id[not(. = instance('app')//@xml:id)][1]"/>
+                    <xf:setvalue ref="instance('processing')" value="$rdg" />
+                    <xf:setvalue ref="instance('app')/tei:rdg[@xml:id = '']/@xml:id" value="$rdg"/>
+                    <xf:insert context="instance('app')/tei:rdg[@xml:id = instance('processing')]" origin="instance('text')//tei:app[@xml:id = event('app')]/*[@xml:id = instance('processing')]/node()"/>
+                </xf:action>
+
+                <xf:delete nodeset="instance('text')//tei:app[@xml:id = event('app')]/*"/>
+                <xf:insert origin="instance('app')/node()" context="instance('text')//tei:app[@xml:id = event('app')]" />
+            </xf:action>
+        </xf:model>
+    </head>
+    <body>
+        <h1>Reviewer</h1>
+        <xf:trigger>
+            <xf:label>Rev</xf:label>
+            <xf:toggle case="rev" ev:event="DOMActivate"/>
+        </xf:trigger>
+        <xf:trigger>
+            <xf:label>Read</xf:label>
+            <xf:toggle case="read" ev:event="DOMActivate"/>
+        </xf:trigger>
+
+        <xf:switch>
+            <xf:case id="rev">
+                <div>
+                    <h2>Text</h2>
+                    <xf:output incremental="true" value="transform(instance('text'), 'assets/xsl/teitohtml.xsl', false)" mediatype="text/html"/>
+                </div>
+            </xf:case>
+            <xf:case id="read">
+                <xf:output incremental="true" value="transform(instance('text'), 'assets/xsl/teitohtml2.xsl', false)" mediatype="text/html"/>
+            </xf:case>
+        </xf:switch>
+        <div>
+            <h2>Debug</h2>
+
+            <xf:output value="serialize(instance('text')//tei:rdg)"/>
+            <xf:output value="serialize(instance('app'))"/>
+            <xf:output value="serialize(instance('processing'))"/>
+        </div>
+        <script type="text/javascript" src="assets/js/function.js">/**/</script>
+    </body>
+</html>

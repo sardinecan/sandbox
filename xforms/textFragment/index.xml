@@ -1,0 +1,55 @@
+<?xml-stylesheet href="../xsltforms/xsltforms.xsl" type="text/xsl"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xf="http://www.w3.org/2002/xforms"
+    xmlns:ev="http://www.w3.org/2001/xml-events" lang="fr">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Test Contenu Mixte</title>
+        <xf:model id="index">
+            <!-- main instance to store indexing information about selected text -->
+            <xf:instance id="selection">
+                <notes xmlns="">
+                    <note>
+                        <text/>
+                        <prefix/>
+                        <content/>
+                    </note>
+                </notes>
+            </xf:instance>
+            <xf:action ev:event="getSelectionInfo">
+                <xf:setvalue ref="instance('selection')/*:note/*:text" value="event('selectedText')" />
+                <xf:setvalue ref="instance('selection')/*:note/*:prefix" value="event('prefix')" />
+            </xf:action>
+        </xf:model>
+        <script type="text/javascript" src="annotate.js">/*annotate script*/</script>
+        <style>
+            .main {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                column-gap: 5em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="form">
+                <xf:group ref="instance('selection')">
+                    <xf:repeat nodeset="note">
+                        <xf:textarea ref="content">
+                            <xf:label>Note</xf:label>
+                        </xf:textarea>
+                        <br/>
+                        <a href="{concat('#:~:text=', ./text)}">text fragment</a>
+                        <br/>
+                        <a href="{concat('#:~:text=', normalize-space(prefix), '-,', text)}">text fragment with prefix</a>
+                    </xf:repeat>
+                </xf:group>
+            </div>
+        </div>
+<!--<xf:output value="serialize(.)"/>-->
+</body>
+</html>

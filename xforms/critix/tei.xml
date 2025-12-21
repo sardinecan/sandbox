@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>CritiX</title>
+            </titleStmt>
+            <publicationStmt>
+                <p/>
+            </publicationStmt>
+            <sourceDesc>
+                <p/>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <p>Les fleurs sont <app xml:id="app01">
+                    <lem xml:id="lem01"><hi>belles</hi></lem>
+                    <rdg xml:id="rdg01">moches</rdg>
+                    <rdg xml:id="rdg02">laides</rdg>
+                    </app>.</p>
+        </body>
+    </text>
+</TEI>
