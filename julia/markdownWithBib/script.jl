@@ -24,7 +24,7 @@ bibdata = """
 write("bib.bib", bibdata)
 
 bib = import_bibtex("bib.bib")
-println("   1. fichier bib chargé avec Bibliography.jl")
+println("fichier bib chargé")
 
 article = """
 # Mon article
@@ -39,9 +39,9 @@ enable!(parser, CitationRule())
 ast = parser(article)
 
 htmlbody = html(ast)
-println("  2. markdown parsé avec CommonMark.jl")
+println("markdown parsé avec CommonMark.jl")
 
-# === 4. FORMATER LA BIBLIOGRAPHIE AVEC DocumenterCitations ===
+# Formatage de la bibliographie avec DocumenterCitations
 
 global bibliographyhtml = """
   <div class="references">
@@ -50,24 +50,26 @@ global bibliographyhtml = """
 """
 
 for (key, entry) in bib
-    # Formater avec le style :numeric de DocumenterCitations
-    formattedmd = DocumenterCitations.format_bibliography_reference(:numeric, entry)
+  # Formater avec le style :numeric de DocumenterCitations
+  # https://juliadocs.org/DocumenterCitations.jl/stable/gallery/
+  formattedmd = DocumenterCitations.format_bibliography_reference(:numeric, entry)
 
-    formattedhtml = replace(formattedmd, r"\*\*([^*]+)\*\*" => s"<strong>\1</strong>")
-    formattedhtml = replace(formattedhtml, r"\*([^*]+)\*" => s"<em>\1</em>")
+  formattedhtml = replace(formattedmd, r"\*\*([^*]+)\*\*" => s"<strong>\1</strong>")
+  formattedhtml = replace(formattedhtml, r"\*([^*]+)\*" => s"<em>\1</em>")
 
-    global bibliographyhtml *= """
-      <li id="ref-$key">$formattedhtml</li>
-"""
+  global bibliographyhtml *= """
+    <li id="ref-$key">$formattedhtml</li>
+  """
 
-    println("[$key] $formattedmd")
+  println("[$key] $formattedmd")
 end
 
+# concaténation
 bibliographyhtml *= """
     </ol>
   </div>
 """
-println("  3. bibliographie formatée avec DocumenterCitations.jl")
+println("bibliographie formatée avec DocumenterCitations.jl")
 
 fullhtml = """
 <!DOCTYPE html>
@@ -101,4 +103,4 @@ fullhtml = """
 
 write("article.html", fullhtml)
 
-println("  4.  article transformé !")
+println("article transformé !")
